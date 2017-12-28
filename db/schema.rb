@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228195604) do
+ActiveRecord::Schema.define(version: 20171228225446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.string   "author_type"
+    t.integer  "author_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+  end
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -32,4 +46,34 @@ ActiveRecord::Schema.define(version: 20171228195604) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "airports", force: :cascade do |t|
+    t.string  "short_name"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.integer "city_id"
+    t.index ["city_id"], name: "index_airports_on_city_id", using: :btree
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string  "name"
+    t.float   "rent_per_day"
+    t.integer "country_id"
+    t.index ["country_id"], name: "index_cities_on_country_id", using: :btree
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.text    "name"
+    t.string  "timezone"
+    t.integer "currency_id"
+    t.index ["currency_id"], name: "index_countries_on_currency_id", using: :btree
+  end
+
+  create_table "currencies", force: :cascade do |t|
+    t.string "name"
+    t.float  "rate"
+  end
+
+  add_foreign_key "airports", "cities"
+  add_foreign_key "cities", "countries"
+  add_foreign_key "countries", "currencies"
 end
