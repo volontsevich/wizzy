@@ -1,0 +1,44 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.5.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: development
+      POSTGRES_DB: wizzy_development
+    ports:
+      - "5432:5432"
+
+  web-bundler-cache:
+    image: ruby:2.3.1
+    command: echo 'Data Container for Ruby 2.3.1 bundled gems'
+    volumes:
+      - /usr/local/bundle
+
+  web:
+    build: .
+    volumes:
+      - .:/app
+    volumes_from:
+      - web-bundler-cache
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+    stdin_open: true
+    tty: true
+
+  worker:
+    build: .
+    volumes:
+      - .:/app
+    volumes_from:
+      - web-bundler-cache
+    environment:
+      - RAILS_ENV=development
+    stdin_open: true
+    tty: true
+
+  redis:
+    ports:
+      - "6379:6379"
