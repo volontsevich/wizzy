@@ -5,23 +5,38 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.6'
-gem 'pg', '~> 0.18'
+gem 'rails', '~> 5.0.2'
+gem 'pg'
+gem 'figaro'
 gem 'puma', '~> 3.0'
+gem 'puma_worker_killer'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 
+# Backup
+gem 'whenever', require: false
 gem 'gon', '~> 6.0', '>= 6.0.1'
 
+# Authentication and Authorization
 gem 'devise'
+gem 'pundit'
+
+# Active Admin
 gem 'activeadmin', github: 'activeadmin'
+gem 'active_admin_import' , github: 'activeadmin-plugins/active_admin_import'
 gem 'active_admin_datetimepicker'
 gem 'geokit-rails'
 gem 'amcharts.rb'
+gem 'selectize-rails'
+gem 'timelineJS3-rails', '~> 1.0.0'
+
+# PDF
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'pdfunite'
+
 
 # Trb
 gem 'trailblazer-rails'
@@ -29,13 +44,14 @@ gem 'cells-rails'
 gem 'cells-erb'
 gem 'trailblazer-cells'
 
+# Vue js
+gem 'vuejs-rails'
+
 # Jobs
 gem 'sidekiq'
 gem 'sidekiq-failures'
 gem 'sidekiq-batch'
 gem 'sinatra', github: 'sinatra/sinatra', branch: 'master', require: false # for web ui
-
-
 
 group :development, :test do
   gem 'byebug', platform: :mri

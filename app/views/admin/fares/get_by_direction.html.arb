@@ -1,0 +1,34 @@
+panel 'Fares for direction' do
+  table class: 'report' do
+    tr do
+      th {'Airport Dep Name'}
+      th {'Airport Arr Name'}
+      th {'Amount'}
+      th {'Currency'}
+      th {'Date'}
+    end
+    data['outbound_flights'].each do |flight|
+      if flight['price'].present?
+        tr do
+          td {flight['departureStation']}
+          td {flight['arrivalStation']}
+          td {flight['price']['amount'] if flight['price'].present?}
+          td {flight['price']['currencyCode']}
+          td {flight['date']}
+        end
+      end
+    end
+
+    data['return_flights'].each do |flight|
+      if flight['price'].present?
+        tr do
+          td {flight['departureStation']}
+          td {flight['arrivalStation']}
+          td {flight['price']['amount'] if flight['price'].present?}
+          td {flight['price']['currencyCode']}
+          td {flight['date']}
+        end
+      end
+    end
+  end
+end

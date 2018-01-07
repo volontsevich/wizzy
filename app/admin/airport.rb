@@ -4,7 +4,7 @@ ActiveAdmin.register Airport do
 
 
   filter :short_name, label: 'Name'
-  filter :city
+  filter :city, as: :select, collection: City.order(:name)
   filter :latitude
   filter :longitude
 
@@ -23,6 +23,9 @@ ActiveAdmin.register Airport do
   index do
     selectable_column
     column :short_name
+    column 'Country' do |e|
+      e.city.country
+    end
     column :city
     column :latitude
     column :longitude
@@ -40,7 +43,25 @@ ActiveAdmin.register Airport do
       end
 
     end
+
+    panel "Connected Airports" do
+      table_for airport.direct_connections do
+        column :airport do |instance|
+          if instance.connected_airport.present?
+            link_to("#{instance.connected_airport.short_name} (#{instance.connected_airport.city.name})",
+                    admin_airport_path(instance.connected_airport_id))
+          else
+            'NOT FOUND'
+          end
+        end
+      end
+    end
     # active_admin_comments
+  end
+
+  collection_action :import_wizzair, method: :get do
+    result = Airport::GetFromWizzair.()
+    redirect_to admin_dashboard_path
   end
 
 end

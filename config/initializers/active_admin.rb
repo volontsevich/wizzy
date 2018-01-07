@@ -205,6 +205,8 @@ ActiveAdmin.setup do |config|
   config.register_javascript 'amcharts.js'
   config.register_javascript 'amcharts/serial.js'
   config.register_javascript 'amcharts/pie.js'
+  config.register_javascript 'dependent_select.js'
+  config.register_javascript 'custom.js'
 
   # == CSV options
   #
@@ -261,7 +263,7 @@ ActiveAdmin.setup do |config|
   # Pagination is enabled by default for all resources.
   # You can control the default per page count for all resources here.
   #
-  # config.default_per_page = 30
+  config.default_per_page = 100
   #
   # You can control the max per page count too.
   #

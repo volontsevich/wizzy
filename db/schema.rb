@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228225446) do
+ActiveRecord::Schema.define(version: 20171231082920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20171228225446) do
     t.float   "latitude"
     t.float   "longitude"
     t.integer "city_id"
+    t.integer "company_name"
     t.index ["city_id"], name: "index_airports_on_city_id", using: :btree
   end
 
@@ -73,7 +74,14 @@ ActiveRecord::Schema.define(version: 20171228225446) do
     t.float  "rate"
   end
 
+  create_table "direct_connections", force: :cascade do |t|
+    t.integer "airport_id"
+    t.integer "connected_airport_id"
+    t.index ["airport_id"], name: "index_direct_connections_on_airport_id", using: :btree
+  end
+
   add_foreign_key "airports", "cities"
   add_foreign_key "cities", "countries"
   add_foreign_key "countries", "currencies"
+  add_foreign_key "direct_connections", "airports"
 end

@@ -5,9 +5,7 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc {I18n.t("active_admin.dashboard")} do
 
     def someChart
-
       chartData = City.joins(:country).group('countries.name').count.map {|key, value| {num: value, country: key}}
-
       if chartData
         chart = AmCharts::Chart::Serial.new(chartData) do |c|
           c.dimensions = '800x400'
@@ -35,5 +33,9 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
+  end
+
+  action_item 'Get data from WizzAir' do
+    link_to('Get data from WizzAir', import_wizzair_admin_airports_path)
   end
 end
