@@ -1,11 +1,11 @@
 class Airport < ActiveRecord::Base
   class GetFromWizzair < ::Trailblazer::Operation
-
+    WIZZ_AIR_API_VERSION = '7.7.5'
     initialize_pipetree!
     step :form_report
 
     def form_report(options)
-      raw_json = `curl "https://be.wizzair.com/7.7.2/Api/asset/map?languageCode=en-gb"`
+      raw_json = `curl "https://be.wizzair.com/#{Airport::GetFromWizzair::WIZZ_AIR_API_VERSION}/Api/asset/map?languageCode=en-gb"`
       parsed_json = JSON.parse(raw_json)
       if parsed_json["cities"].present?
         airport_directions = []

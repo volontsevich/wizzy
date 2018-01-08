@@ -1,19 +1,24 @@
 panel 'Please select Country and City to get the report' do
   semantic_form_for report_name.to_sym, builder: ActiveAdmin::FormBuilder do |f|
-    f.inputs('Country and City') do
-      f.input(:country_dep_id, label: 'Country Departure', as: :select, collection: countries.map {|c| ["#{c.name}", c.id]}) +
-          f.input(:city_dep_id, as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/cities?country_id=:#{report_name}_country_dep_id", 'data-option-observed' => "#{report_name}_country_dep_id"}, collection: [], include_blank: true)
+    f.inputs('Country and City (Departure)', class: 'three_columns_form') do
+      f.input(:country_dep_id, label: 'Country', as: :select, collection: countries.map {|c| ["#{c.name}", c.id]}) +
+          f.input(:city_dep_id, label: 'City', as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/cities?country_id=:#{report_name}_country_dep_id", 'data-option-observed' => "#{report_name}_country_dep_id"}, collection: [], include_blank: true)
     end +
-        f.inputs('Airport Departure (Optional)') do
-          f.input(:airport_dep_id, as: :select, :input_html => {'data-option-dependent' => true, 'data-option-url' => "/airports?city_id=:#{report_name}_city_dep_id", 'data-option-observed' => "#{report_name}_city_dep_id"}, collection: [], include_blank: true)
+        f.inputs('Airport  (Optional)', class: 'three_columns_form') do
+          f.input(:airport_dep_id, label: 'Departure Airport', as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/airports?city_id=:#{report_name}_city_dep_id", 'data-option-observed' => "#{report_name}_city_dep_id"}, collection: [], include_blank: true)
         end +
-
-        f.inputs('Country and City') do
-          f.input(:country_arr_id, label: 'Country Arrival', as: :select, collection: countries.map {|c| ["#{c.name}", c.id]}) +
-              f.input(:city_arr_id, as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/cities?country_id=:#{report_name}_country_arr_id", 'data-option-observed' => "#{report_name}_country_arr_id"}, collection: [], include_blank: true)
+        f.inputs('Departure Date', class: 'three_columns_form') do
+          f.input(:dep_flight_date, label: 'Flight Date', as: :string, input_html: {class: 'datepicker hasDatePicker'})
         end +
-        f.inputs('Airport Arrival (Optional)') do
-          f.input(:airport_arr_id, as: :select, :input_html => {'data-option-dependent' => true, 'data-option-url' => "/airports?city_id=:#{report_name}_city_arr_id", 'data-option-observed' => "#{report_name}_city_arr_id"}, collection: [], include_blank: true)
+        f.inputs('Country and City (Arrival)', class: 'three_columns_form') do
+          f.input(:country_arr_id, label: 'Country', as: :select, collection: countries.map {|c| ["#{c.name}", c.id]}) +
+              f.input(:city_arr_id, label: 'City', as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/cities?country_id=:#{report_name}_country_arr_id", 'data-option-observed' => "#{report_name}_country_arr_id"}, collection: [], include_blank: true)
+        end +
+        f.inputs('Airport (Optional)', class: 'three_columns_form') do
+          f.input(:airport_arr_id, label: 'Arrival Airport', as: :select, input_html: {'data-option-dependent' => true, 'data-option-url' => "/airports?city_id=:#{report_name}_city_arr_id", 'data-option-observed' => "#{report_name}_city_arr_id"}, collection: [], include_blank: true)
+        end +
+        f.inputs('Arrival Date', class: 'three_columns_form') do
+          f.input(:arr_flight_date, label: 'Flight Date', as: :string, input_html: {class: 'datepicker hasDatePicker'})
         end +
         f.actions do
           f.action(:submit, as: :button, label: 'Get Report')
